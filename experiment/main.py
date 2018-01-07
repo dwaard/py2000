@@ -1,7 +1,9 @@
+import codecs
 from datetime import datetime
-import sources2, codecs
+
+import reader
+from experiment import analyzer_old
 from staging import StagedData
-import analyzer
 
 
 def extract():
@@ -9,7 +11,7 @@ def extract():
     # Do stuff here
     print "Start extracting raw data into staged environment"
     staging = StagedData()
-    for row in sources2.read_all():  # extract data into rows
+    for row in reader.all_rows():  # extract data into rows
         # clean and stage the data
         staging.append(row)
     b = datetime.now() - a
@@ -20,7 +22,7 @@ def extract():
 def analyze():
     a = datetime.now()
     print "Start analyzing staged environment"
-    analyzer.analyze_all()
+    analyzer_old.analyze_all()
     b = datetime.now() - a
     delta = 1.0 * b.total_seconds() + b.microseconds * 0.0000001
     print "Finished analyzing in %.3f seconds" % delta

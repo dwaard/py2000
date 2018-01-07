@@ -1,6 +1,9 @@
+import codecs
 import difflib
-import Levenshtein
 import unicodedata
+
+import Levenshtein
+
 from staging import *
 
 stems = dict()
@@ -16,29 +19,24 @@ def analyze_all():
     length = len(artists)
     size = fac(length-1) # determine number of checks
     print "Analyzing %i artists. This means %d similiarity checks" % (length, size)
-    similar_artist_file = codecs.open("staged/similar_artists.csv", encoding='cp1252', mode='w')
-    line = '"%s";"%s";"%s";"%s";"%s";"%s";"%s"\n' % (
-        'name1', 'name2', 'artist', 'songs', 'adv', 'stem1', 'stem2')
-    similar_artist_file.write(line)
-    similar_song_file = codecs.open("staged/similar_songs.csv", encoding='cp1252', mode='w')
     count = 1
     done = 0
     for name, songs in cache.iteritems():
         perc = 100.0 * done / size
         print " " * 79 + '\r',
-        print "Analyzing: " + '{:.1f}% '.format(perc) + repr(name) + " %d" % len(songs),
-        analyze_artist(name, cache.keys()[count:], a, similar_artist_file, cache)
-        analyze_artist_songs(name, songs, c, similar_song_file)
+        print "\rAnalyzing: " + '{:.1f}% '.format(perc) + repr(name) + " %d" % len(songs),
+        analyze_artist(name, cache.keys()[count:], a, cache)
+        analyze_artist_songs(name, songs, c)
         count += 1
         done += (length - count)
     print " " * 79 + '\r',
     print "Analyzing: 100.00%"
-    similar_song_file.close();
+    a.save()
+    c.save()
 
-
-def analyze_artist(name1, other_artists, a, file, cache):
+def analyze_artist(name1, other_artists, a, cache):
     for name2 in other_artists:
-        if not a.should_ignore_on_analyze(name1, name2):
+        if not a.should_ignore_on_analyze(name2, name1):
             stem1 = stems[name1]
             stem2 = stems[name2]
             r = similar(stem1, stem2)
@@ -52,9 +50,7 @@ def analyze_artist(name1, other_artists, a, file, cache):
                     number = number.replace(".", ",")
                     number2 = "%f" % song_r
                     number2 = number2.replace(".", ",")
-                    line = '"%s";"%s";"%s";"%s";"%s";"%s";"%s"\n' % (
-                        name1, name2, number, number2, adv, stem1, stem2)
-                    file.write(line)
+                    a.append_raw_data([name2, name1, number, number2, adv, stem2, stem1])
 
 
 def closest_songs_ratio(songs1, songs2):
@@ -66,12 +62,12 @@ def closest_songs_ratio(songs1, songs2):
         else:
             closest = closest[0]
         ratio = Levenshtein.ratio(song, closest)
-        if ratio>result:
+        if ratio > result:
             result = ratio
     return result
 
 
-def analyze_artist_songs(name, songs, c, file):
+def analyze_artist_songs(name, songs, c):
     if len(songs) > 1:
         index = 0
         for song1 in songs.keys():
@@ -84,9 +80,10 @@ def analyze_artist_songs(name, songs, c, file):
                     if (r >= 0.75):
                         number = "%f" % r
                         number = number.replace(".", ",")
-                        line = '"%s";"%s";"%s";"%s";"%s";"%s"\n' % (
-                            name, song1, song2, songs[song1]['year'], songs[song2]['year'], number)
-                        file.write(line)
+                        # line = '"%s";"%s";"%s";"%s";"%s";"%s"\n' % (
+                        #     name, song1, song2, songs[song1]['year'], songs[song2]['year'], number)
+                        # file.write(line)
+                        c.append_raw_data([name, song2, song1, songs[song2]['year'], songs[song1]['year'], number])
             index += 1
 
 

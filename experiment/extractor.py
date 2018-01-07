@@ -1,8 +1,9 @@
 #
-import csv, xlrd, time
-from staging import StagedData
 from datetime import datetime
+
 from sources import *
+from staging import StagedData
+
 
 def extract():
     a = datetime.now()

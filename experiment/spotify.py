@@ -1,8 +1,10 @@
-import spotipy, json
-from staging import StagedData
 import os.path
 import time
 
+import json
+import spotipy
+
+from staging import StagedData
 
 s = StagedData()
 spotify = spotipy.Spotify()
