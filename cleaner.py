@@ -3,16 +3,16 @@ import reader
 
 nonBreakSpace = u'\xa0'
 
-def clean(data):
+def clean(artist, title, year):
     """" Cleans artist, title and year for the song """
-    data[reader.ARTIST_COLUMN] = clean_artist(data)
-    data[reader.TITLE_COLUMN] = clean_title(data)
-    data[reader.SONG_YEAR_COLUMN] = clean_year(data)
-    return data
+    artist = clean_artist(artist)
+    title = clean_title(artist, title)
+    # year = clean_year(year)
+    return (artist, title, year)    
 
 
 def clean_artist(data):
-    result = data[reader.ARTIST_COLUMN].strip().replace(nonBreakSpace, " ")
+    result = data.strip().replace(nonBreakSpace, " ")
     rule = get_rule_for_artist_only(result)
     while rule:
         result = rule['new_artist']
@@ -21,14 +21,14 @@ def clean_artist(data):
     return result
 
 
-def clean_title(data):
-    name = data[reader.ARTIST_COLUMN]
-    title = data[reader.TITLE_COLUMN].strip().replace(nonBreakSpace, " ")
-    rule = get_rule_for_title(name, title)
+def clean_title(artist, title):
+    artist = artist.strip().replace(nonBreakSpace, " ")
+    title = title.strip().replace(nonBreakSpace, " ")
+    rule = get_rule_for_title(artist, title)
     while rule:
         title = rule['new_title']
         rule['count'] += 1
-        rule = get_rule_for_title(name, title)
+        rule = get_rule_for_title(artist, title)
     return title
 
 

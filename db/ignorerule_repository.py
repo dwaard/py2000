@@ -1,4 +1,4 @@
-from repository import Repository
+from db.repository import Repository
 
 
 class IgnoreruleRepository(Repository):
@@ -31,6 +31,7 @@ class IgnoreruleRepository(Repository):
     def append(self, data):
         self._insert_row(data)
         self.commit()
+        self.__init_cache()
 
     def rulecount_for_artists(self, name1, name2):
         try:

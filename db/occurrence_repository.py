@@ -1,4 +1,4 @@
-from repository import Repository
+from db.repository import Repository
 
 
 class OccurrenceRepository(Repository):
@@ -10,6 +10,9 @@ class OccurrenceRepository(Repository):
             "Occurance",
             [
                 ('song', 'INTEGER NOT NULL'),
+                ('title', 'TEXT NOT NULL'),
+                ('artist', 'TEXT NOT NULL'),
+                ('year', 'INTEGER NOT NULL'),
                 ('edition', 'INTEGER NOT NULL'),
                 ('position', 'INTEGER NOT NULL')
             ])

@@ -1,4 +1,4 @@
-from repository import Repository
+from db.repository import Repository
 
 
 class SwapruleRepository(Repository):
@@ -27,6 +27,7 @@ class SwapruleRepository(Repository):
     def append(self, data):
         self._insert_row(data)
         self.commit()
+        self.__cache = dict() #reset the cache
 
     def rules_for_artist_only(self, name):
         if name not in self.__cache:

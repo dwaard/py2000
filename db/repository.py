@@ -62,7 +62,7 @@ class Repository:
         """" Inserts rows of data in the database using the tablespec to genereate the query. If ignore=True the 
          query will be changed from INSERT into INSERT OR IGNORE"""
         sql = "INSERT %s INTO %s VALUES (%s)" % ("OR IGNORE" if ignore else "", self._table_name, ','
-                                                 .join(['?' for _ in xrange(self._column_count)]))
+                                                 .join(['?' for _ in range(self._column_count)]))
         c = self.conn.cursor()
         c.execute(sql, iterable)
         return c.lastrowid
@@ -79,7 +79,7 @@ class Repository:
         """" Inserts rows of data in the database using the tablespec to genereate the query. If ignore=True the 
          query will be changed from INSERT into INSERT OR IGNORE"""
         sql = "INSERT %s INTO %s VALUES (%s)" % ("OR IGNORE" if ignore else "", self._table_name, ','
-                                                 .join(['?' for _ in xrange(self._column_count)]))
+                                                 .join(['?' for _ in range(self._column_count)]))
         c = self.conn.cursor()
         c.executemany(sql, iterable)
         self.conn.commit()

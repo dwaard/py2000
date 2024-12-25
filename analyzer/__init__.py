@@ -48,7 +48,7 @@ def handle_song_equality(artist, data):
     choice = -1
     while choice != 0 and len(data) > 1:
         for index, row in enumerate(data):
-            print "%s: [%s](%d)" % (index+1, row['title'], row['year'])
+            print "%s: [%s](%d)" % (index+1, repr(row['title']), row['year'])
         print "Welke hoort NIET in dit rijtje thuis?"
         choice = get_choice("(enter als alle titels hetzelfde liedje voorstellen): ")
         if choice > 0:
@@ -58,7 +58,7 @@ def handle_song_equality(artist, data):
     if len(data) > 1:
         print "Welke van deze titels is de beste?"
         for index, row in enumerate(data):
-            print "%s: %s" % (index+1, row['title'])
+            print "%s: %s" % (index+1, repr(row['title']))
         choice = get_choice("(enter als deze vegelijking moet worden genegeerd): ")
         if choice > 0:
             choice -= 1
@@ -99,7 +99,7 @@ def handle_artist_equality(data):
     choice = -1
     while choice != 0 and len(data) > 1:
         for index, row in enumerate(data):
-            print "%s: %s" % (index+1, row['name'])
+            print "%s: %s" % (index+1, repr(row['name']))
         print "Welke hoort NIET in dit rijtje thuis?"
         choice = get_choice("(enter als alle namen dezelfde artiest voorstellen): ")
         if choice > 0:
@@ -109,7 +109,7 @@ def handle_artist_equality(data):
     if len(data) > 1:
         print "Welke van deze namen is de beste naam?"
         for index, row in enumerate(data):
-            print "%s: %s" % (index+1, row['name'])
+            print "%s: %s" % (index+1, repr(row['name']))
         choice = get_choice("(enter als deze vegelijking moet worden genegeerd): ")
         if choice > 0:
             choice -= 1

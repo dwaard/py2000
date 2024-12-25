@@ -92,7 +92,6 @@ ENV/
 /.idea
 
 # Project specific folders
-/raw/*.*
 /staged/*.*
 /staged/spotify_cache/*.*
 /output/*.*
