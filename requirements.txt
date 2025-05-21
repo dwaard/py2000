@@ -1,0 +1,11 @@
+matplotlib
+xlrd
+xlwt
+xlutils
+openpyxl
+python-Levenshtein
+pandas
+numpy
+pillow
+wordcloud
+deep-translator
