@@ -90,3 +90,9 @@ ENV/
 
 # PyCharm project settings
 /.idea
+
+# Project specific folders
+/raw/*.*
+/staged/*.*
+/staged/spotify_cache/*.*
+/output/*.*
