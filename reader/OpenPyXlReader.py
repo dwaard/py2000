@@ -29,6 +29,6 @@ class OpenPyXlReader:
                       self.worksheet.cell(self.current_row, self.artist_col).value,
                       int(self.worksheet.cell(self.current_row, self.year_col).value),
                       self.edition,
-                       int(self.worksheet.cell(self.current_row, 1).value), ]
+                       int(self.worksheet.cell(self.current_row, self.position_col).value), ]
             self.current_row += 1
             return result
