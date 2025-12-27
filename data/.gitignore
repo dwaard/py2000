@@ -1,0 +1,7 @@
+# Ignore data contents but keep structure and documentation
+*
+!*/
+!.gitignore
+!**/.gitignore
+!**/.gitkeep
+!**/README.md
